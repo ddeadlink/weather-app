@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    image: dockerize
+    container_name: app
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      - DB_TYPE=postgres
+      - PG_HOST=db
+      - PG_USER=postgres
+      - PG_PASSWORD=admin
+      - PG_DB=postgres
+      - PG_PORT=5432
+      - API_KEY=f7cf31125559072459a457b0d858704a
+
+volumes:
+  pgdata: {}
